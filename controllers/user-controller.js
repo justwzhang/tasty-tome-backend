@@ -135,9 +135,13 @@ registerUser = async (req, res) => {
         const saltRounds = 10;
         const salt = await bcrypt.genSalt(saltRounds);
         const passwordHash = await bcrypt.hash(password, salt);
-
+        salt = await bcrypt.genSalt(saltRounds);
+        const answer1Hash = await bcrypt.hash(answer1, salt);
+        salt = await bcrypt.genSalt(saltRounds);
+        const answer2Hash = await bcrypt.hash(answer2, salt);
+        // save a new user account to the db
         const newUser = new User({
-            firstName, lastName, user, email, passwordHash, security1, security2, answer1, answer2
+            firstName, lastName, user, email, passwordHash, security1, security2, answer1Hash, answer2Hash
         });
         const savedUser = await newUser.save();
 
