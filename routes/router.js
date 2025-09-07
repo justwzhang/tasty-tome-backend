@@ -1,7 +1,8 @@
-const auth = require('../auth')
-const express = require('express')
-const Top5ListController = require('../controllers/top5list-controller')
-const UserController = require('../controllers/user-controller')
+const auth = require('../auth');
+const express = require('express');
+const Top5ListController = require('../controllers/top5list-controller');
+const UserController = require('../controllers/user-controller');
+const HealthController = require('../controllers/health-controller');
 const router = express.Router()
 
 router.post('/top5list', auth.verify, Top5ListController.createTop5List)
@@ -16,4 +17,6 @@ router.get('/loggedIn', UserController.getLoggedIn)
 router.get('/logout', UserController.logoutUser)
 router.post('/login', UserController.logInUser)
 
+router.get('/health', HealthController.healthCheck);
+router.get('/mongoHealth', HealthController.mongoHealthCheck);
 module.exports = router
