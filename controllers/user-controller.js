@@ -10,15 +10,16 @@ logoutUser = async (req, res) => {
 }
 
 logInUser = async (req, res) => {
-    const{email, password, user} = req.body
-        if (!email || !password || !user) {
+    const{password, user,email} = req.body
+    console.log(req.body)
+        if (!email || !password) {
             return res
                 .status(400)
                 .json({ errorMessage: "Please enter all required fields." });
         }
     try{
         const{email, password, user} = req.body
-        if (!email || !password|| !user) {
+        if (!email || !password) {
             return res
                 .status(400)
                 .json({ errorMessage: "Please enter all required fields." });
@@ -41,11 +42,11 @@ logInUser = async (req, res) => {
                 .status(400)
                 .json({errorMessage: "Email not registered"})
         })
-        if(theUser.user !== user){
-            return res
-                .status(400)
-                .json({errorMessage: "Invalid User Name"})
-        }
+        // if(theUser.user !== user){
+        //     return res
+        //         .status(400)
+        //         .json({errorMessage: "Invalid User Name"})
+        // }
         bcrypt.compare(password, theUser.passwordHash, async function(err, result){
             if(result == true){
                 console.log("good");
@@ -95,6 +96,7 @@ getLoggedIn = async (req, res) => {
 registerUser = async (req, res) => {
     try {
         const { firstName, lastName,user,  email, password, passwordVerify, security1, security2, answer1, answer2 } = req.body;
+        console.log(req.body);
         if (!firstName || !lastName || !user || !email || !password || !passwordVerify || !security1 || !security2 || !answer1 || !answer2) {
             return res
                 .status(400)
@@ -135,13 +137,11 @@ registerUser = async (req, res) => {
         const saltRounds = 10;
         const salt = await bcrypt.genSalt(saltRounds);
         const passwordHash = await bcrypt.hash(password, salt);
-        salt = await bcrypt.genSalt(saltRounds);
         const answer1Hash = await bcrypt.hash(answer1, salt);
-        salt = await bcrypt.genSalt(saltRounds);
         const answer2Hash = await bcrypt.hash(answer2, salt);
         // save a new user account to the db
         const newUser = new User({
-            firstName, lastName, user, email, passwordHash, security1, security2, answer1Hash, answer2Hash
+            firstName, lastName, user, email, passwordHash, security1, security2, answer1:answer1Hash, answer2:answer2Hash
         });
         const savedUser = await newUser.save();
 
