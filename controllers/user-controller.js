@@ -11,7 +11,7 @@ logoutUser = async (req, res) => {
 
 logInUser = async (req, res) => {
     const{password, user,email} = req.body
-    console.log(req.body)
+    // console.log(req.body)
         if (!email || !password) {
             return res
                 .status(400)
@@ -72,7 +72,7 @@ logInUser = async (req, res) => {
             }
         });
     }catch(err){
-        console.log(err)
+        // console.log(err)
         return res
                 .status(404)
                 .json({errorMessage: "Email not registered"}).send();
@@ -97,7 +97,7 @@ getLoggedIn = async (req, res) => {
 registerUser = async (req, res) => {
     try {
         const { firstName, lastName,user,  email, password, passwordVerify, security1, security2, answer1, answer2 } = req.body;
-        console.log(req.body);
+        // console.log(req.body);
         if (!firstName || !lastName || !user || !email || !password || !passwordVerify || !security1 || !security2 || !answer1 || !answer2) {
             return res
                 .status(400)
@@ -162,7 +162,7 @@ registerUser = async (req, res) => {
             }
         }).send();
     } catch (err) {
-        console.error(err);
+        // console.error(err);
         res.status(500).send();
     }
 }
